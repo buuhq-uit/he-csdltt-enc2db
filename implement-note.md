@@ -76,3 +76,11 @@ SELECT aes_eq('\x112233'::bytea, '\xabcdef'::bytea);     -- f
 #### 2.3.2 AHE
 
 udf_ahe_add() — cộng AHE ciphertext
+
+#### 2.3.3 MHE
+
+udf_mhe_mul() — nhân MHE ciphertext
+
+#### 2.3.4 ORE Done
+
+udf_ore_cmp() — so sánh 2 ORE ciphertext
