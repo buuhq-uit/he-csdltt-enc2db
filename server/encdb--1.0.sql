@@ -5,7 +5,7 @@ AS 'MODULE_PATHNAME', 'add_one'
 LANGUAGE C STRICT IMMUTABLE;
 
 -- Hàm aes_eq: so sánh 2 ciphertext AES bằng bytea =
-CREATE FUNCTION aes_eq(bytea, bytea)
+CREATE FUNCTION udf_aes_eq(bytea, bytea)
 RETURNS boolean
 LANGUAGE SQL
 IMMUTABLE STRICT
@@ -140,3 +140,17 @@ DEFAULT FOR TYPE ore_en USING btree AS
     OPERATOR 4 >= (ore_en, ore_en),
     OPERATOR 5 >  (ore_en, ore_en),
     FUNCTION 1 udf_ore_cmp(ore_en, ore_en);
+
+
+-- UDF cộng 2 ciphertext AHE
+CREATE FUNCTION udf_ahe_add(bigint, bigint)
+RETURNS bigint
+LANGUAGE SQL IMMUTABLE STRICT
+AS $$ SELECT $1 + $2 $$;
+
+-- Aggregate ahe_sum: dùng udf_ahe_add để tính tổng ciphertext
+CREATE AGGREGATE ahe_sum(bigint) (
+    SFUNC    = udf_ahe_add,
+    STYPE    = bigint,
+    INITCOND = '0'
+);

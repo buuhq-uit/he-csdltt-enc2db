@@ -6,8 +6,8 @@ sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)
 curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/postgresql.gpg
 sudo apt update
 
-sudo apt install postgresql-16 postgresql-contrib-16
-
+sudo apt install build-essential
+sudo apt install postgresql-16 postgresql-contrib-16 postgresql-server-dev-16
 ```
 
 ```shell
@@ -15,6 +15,22 @@ sudo systemctl start postgresql
 sudo systemctl enable postgresql
 sudo systemctl status postgresql
 sudo systemctl restart postgresql
+
+# 1. Xem cluster hiện tại
+pg_lsclusters
+
+# 2. Drop cluster cũ (nó sẽ xóa luôn dữ liệu trong /var/lib/postgresql/16/main)
+sudo pg_dropcluster --stop 16 main
+
+# 3. Tạo lại cluster mới và start luôn
+sudo pg_createcluster 16 main --start
+
+# 4. Kiểm tra
+pg_lsclusters
+
+sudo pg_ctlcluster 16 main start
+sudo systemctl status postgresql@16-main
+sudo pg_ctlcluster 16 main restart
 psql --version
 ```
 

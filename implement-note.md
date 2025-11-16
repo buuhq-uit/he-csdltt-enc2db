@@ -32,6 +32,14 @@ Dùng các thuật toán mã hóa AHE, MHE, ORE, and AES algorithm
 
 ```shell
 sudo apt install build-essential postgresql-server-dev-16
+
+python -m venv .venv
+.venv\Scripts\activea
+
+pip install psycopg2 psycopg2-binary cryptography
+conda install psycopg2 psycopg2-binary cryptography
+sudo -u postgres psql
+psql -d enc2db_lab
 ```
 
 #### 2.3.1 AES
@@ -65,6 +73,8 @@ sudo -u postgres psql
 ```
 
 ```sql
+CREATE DATABASE enc2db_lab;
+
 DROP EXTENSION IF EXISTS encdb CASCADE;
 CREATE EXTENSION encdb;
 
